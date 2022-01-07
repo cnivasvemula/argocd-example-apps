@@ -1,0 +1,73 @@
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: "2020-09-07T13:12:32Z"
+  generation: 1
+  name: sftp-server
+  namespace: csodev-platform
+  resourceVersion: "33284825"
+  selfLink: /apis/extensions/v1beta1/namespaces/default/deployments/sftp-server
+  uid: 9861e94f-f574-4878-b152-7380c4c9a816
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      name: sftp-server
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        name: sftp-server
+    spec:
+      containers:
+      - image: repo.dev.decisionengines.ai/de-sftp-server:18
+        imagePullPolicy: IfNotPresent
+        name: sftp-server
+        ports:
+        - containerPort: 2222
+          hostPort: 2222
+          name: sftp-host-port
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: dockerreposecret
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2020-09-07T13:12:32Z"
+    lastUpdateTime: "2020-09-07T13:12:38Z"
+    message: ReplicaSet "sftp-server-868db657c7" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2020-12-01T08:19:12Z"
+    lastUpdateTime: "2020-12-01T08:19:12Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
+
